@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request
+from flask import Flask, render_template, request
 import pandas as pd
 import re
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
@@ -55,7 +55,6 @@ def get_quotes_by_mood(mood, num_quotes=1):  # Adjusted to return 1 quote by def
     filtered_df = df[df['sentiment_class'] == mood]
     return filtered_df['Quote'].sample(n=num_quotes).tolist()
 
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     mood = None
@@ -64,7 +63,7 @@ def index():
         mood = request.form.get('mood')
         quotes = get_quotes_by_mood(mood)
     
-    return send_from_directory('', 'index.html'), {'mood': mood, 'quotes': quotes}
+    return render_template('index.html', mood=mood, quotes=quotes)
 
 if __name__ == '__main__':
     app.run(debug=True)
