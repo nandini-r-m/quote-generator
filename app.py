@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, send_from_directory, request
 import pandas as pd
 import re
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
@@ -64,7 +64,7 @@ def index():
         mood = request.form.get('mood')
         quotes = get_quotes_by_mood(mood)
     
-    return render_template('index.html', mood=mood, quotes=quotes)
+    return send_from_directory('', 'index.html'), {'mood': mood, 'quotes': quotes}
 
 if __name__ == '__main__':
     app.run(debug=True)
