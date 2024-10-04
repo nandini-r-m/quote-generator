@@ -52,7 +52,7 @@
         margin: 20px 0;
       }
 
-      #quoteDisplay {
+      .quoteDisplay {
         margin-top: 20px;
         font-size: 1.5rem;
         font-family: "Times New Roman", serif;
@@ -76,13 +76,23 @@
         <option value="negative" {% if mood == 'negative' %}selected{% endif %}>Negative</option>
         <option value="neutral" {% if mood == 'neutral' %}selected{% endif %}>Neutral</option>
       </select>
+      <br>
+      <br>
+      <br>
       <button type="submit">Get Quote</button>
     </form>
 
     {% if mood %}
-    <h2>Quote for {{ mood }} mood:</h2>
-    <div id="quoteDisplay">{{ quotes[0] }}</div>
-    {% endif %}
+    <h2>Quote for {{ mood }} mood</h2>
+    {% for quote in quotes %}
+        <div class="quoteDisplay">
+            <p>{{ quote['Quote'] }}</p>
+            <p><strong>Character:</strong> {{ quote['Character'] }}</p>
+            <p><strong>Anime:</strong> {{ quote['Anime'] }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
+
 
     <script>
       // Save selected mood to localStorage after form submission

@@ -53,7 +53,11 @@ def get_quotes_by_mood(mood, num_quotes=1):  # Adjusted to return 1 quote by def
         raise ValueError("Mood must be 'positive', 'negative', or 'neutral'.")
     
     filtered_df = df[df['sentiment_class'] == mood]
-    return filtered_df['Quote'].sample(n=num_quotes).tolist()
+    selected_quote = filtered_df.sample(n=num_quotes)
+
+# Returning the quote, character, and anime
+    return selected_quote[['Quote', 'Character', 'Anime']].to_dict(orient='records')
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
