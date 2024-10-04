@@ -68,19 +68,38 @@
   </head>
   <body>
     <h1>Anime Quote Generator</h1>
-    <form method="POST">
+
+    <form id="quoteForm" method="POST">
       <label for="mood">Select your mood:</label>
       <select id="mood" name="mood">
-        <option value="positive">Positive</option>
-        <option value="negative">Negative</option>
-        <option value="neutral">Neutral</option>
+        <option value="positive" {% if mood == 'positive' %}selected{% endif %}>Positive</option>
+        <option value="negative" {% if mood == 'negative' %}selected{% endif %}>Negative</option>
+        <option value="neutral" {% if mood == 'neutral' %}selected{% endif %}>Neutral</option>
       </select>
       <button type="submit">Get Quote</button>
     </form>
 
     {% if mood %}
-    <h2>Quote for mood '{{ mood }}':</h2>
+    <h2>Quote for {{ mood }} mood:</h2>
     <div id="quoteDisplay">{{ quotes[0] }}</div>
     {% endif %}
+
+    <script>
+      // Save selected mood to localStorage after form submission
+      const form = document.getElementById("quoteForm");
+      const moodSelect = document.getElementById("mood");
+
+      // Store the selected mood in localStorage after user selects a mood
+      form.addEventListener("submit", function (event) {
+        const selectedMood = moodSelect.value;
+        localStorage.setItem("selectedMood", selectedMood); // Save the selected mood
+      });
+
+      // Restore the previously selected mood if available in localStorage
+      const savedMood = localStorage.getItem("selectedMood");
+      if (savedMood) {
+        moodSelect.value = savedMood; // Set the dropdown to the saved mood
+      }
+    </script>
   </body>
 </html>
